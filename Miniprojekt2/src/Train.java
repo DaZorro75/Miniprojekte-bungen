@@ -6,32 +6,48 @@ public class Train {
 	private Waggon head;
 
 	public int getSize() {
-		int size = 0;
-		Waggon train0 = head;
-		while (train0 != null) {
-			train0.getNext();
-			size += 1;
-		}
-		
-		return size;
+	 if (head == null) {
+		 return 0;
+	 }
+	 else {
+		 Waggon wag = head;
+		 int size = 1;
+		 while (wag.getNext() != null) {
+			 size += 1;
+			 wag = wag.getNext();
+		 }
+		 return size;
+	 }
 	}
 
 	public int getPassengerCount() {
-		int passengers = 0;
-		Waggon train0 = head;
-		while (train0 != null ) {
-			passengers += train0.getPassengers();
+		if (head == null) {
+			return 0;
 		}
-		return passengers;
+		else {
+			Waggon wag1 = head;
+			int pass = 0;
+			while (wag1.getNext() != null) {
+				pass += wag1.getPassengers();
+				wag1 = wag1.getNext();
+			}
+			return pass;
+		}
 	}
 
 	public int getCapacity() {
-		int capacity = 0;
-		Waggon train0 = head;
-		while (train0 != null) {
-			capacity += train0.getCapacity();
+		if (head == null) {
+			return 0;
 		}
-		return capacity;
+		else {
+			Waggon wag2 = head;
+			int cap = 0;
+			while (wag2 != null) {
+				cap += wag2.getCapacity();
+				wag2 = wag2.getNext();
+			}
+			return cap;
+		}
 	}
 
 	public void appendWaggon(Waggon waggon) {
@@ -49,6 +65,7 @@ public class Train {
 	
 
 	public void boardPassengers(int numberOfPassengers) {
+	
 	}
 
 	public Train uncoupleWaggons(int index) {
