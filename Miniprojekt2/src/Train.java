@@ -65,8 +65,31 @@ public class Train {
 	
 
 	public void boardPassengers(int numberOfPassengers) {
-	
-	}
+		Waggon train = head;
+		int wartend = numberOfPassengers;
+		while (train != null) {
+			int frei = train.getCapacity() - train.getPassengers();
+			int anBoard = train.getPassengers();
+			
+			if (frei == 0) {
+				train = train.getNext();
+			}
+			else {
+				if (frei >= wartend) {
+					train.setPassengers(wartend);
+				}
+				else {
+					if (frei < wartend) {
+						int temp = wartend - frei;
+						train.setPassengers(train.getCapacity());
+						wartend = temp;
+					}
+					train = train.getNext();
+				}
+			}
+			train = train.getNext();
+		}
+	}	
 
 	public Train uncoupleWaggons(int index) {
 		return new Train();
@@ -82,7 +105,17 @@ public class Train {
 	}
 
 	public Waggon getWaggonAt(int index) {
-		return null;
+		if (index == 0 || index > getSize()) {
+			return null;
+		}
+		else {
+		Waggon query;
+		for (int i = 0; i < index; i++) {
+			head = head.getNext();
+		}
+		query = head;
+		return query;
+		}
 	}
 
 	@Override
