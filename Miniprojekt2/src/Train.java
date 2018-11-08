@@ -35,20 +35,16 @@ public class Train {
 	}
 
 	public void appendWaggon(Waggon waggon) {
-		Waggon zug = head;
-		if (head == null) 
-		{
+		if (head == null) {
 			head = waggon;
-			zug = head;
 		}
 		else {
-			if(head.getNext() == null) {
-		}
-			head.setNext(waggon);
-			head.getNext();
-	
-		System.out.println(zug.toString());
+			Waggon helper = head;
+			while (helper.getNext() != null) {
+				helper = helper.getNext();
 			}
+			helper.setNext(waggon);
+		}
 	}
 	
 
