@@ -142,7 +142,7 @@ public class Train {
 			}
 			else {
 				Waggon wag0 = head;
-				while (wag0.getNext() != waggon) {
+				while (wag0.getNext() != waggon && wag0.getNext() != null) {
 					wag0 = wag0.getNext();
 				}
 				
