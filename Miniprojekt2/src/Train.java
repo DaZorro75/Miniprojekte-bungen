@@ -6,18 +6,18 @@ public class Train {
 	private Waggon head;
 
 	public int getSize() {
-	 if (head == null) {
-		 return 0;
-	 }
-	 else {
-		 Waggon wag = head;
-		 int size = 1;
-		 while (wag.getNext() != null) {
-			 size += 1;
-			 wag = wag.getNext();
-		 }
-		 return size;
-	 }
+		if (head == null) {
+			return 0;
+		}
+		else {
+			int size = 1;
+			Waggon temp = head;
+			while (temp.getNext() != null) {
+				size += 1;
+				temp = temp.getNext();
+			}
+			return size;
+		}
 	}
 
 	public int getPassengerCount() {
@@ -25,13 +25,13 @@ public class Train {
 			return 0;
 		}
 		else {
-			Waggon wag1 = head;
-			int pass = 0;
-			while (wag1.getNext() != null) {
-				pass += wag1.getPassengers();
-				wag1 = wag1.getNext();
+			int passengers = 0;
+			Waggon temp = head;
+			while (temp != null) {
+				passengers += temp.getPassengers();
+				temp = temp.getNext();
 			}
-			return pass;
+			return passengers;
 		}
 	}
 
@@ -40,13 +40,13 @@ public class Train {
 			return 0;
 		}
 		else {
-			Waggon wag2 = head;
-			int cap = 0;
-			while (wag2 != null) {
-				cap += wag2.getCapacity();
-				wag2 = wag2.getNext();
+			int capacity = 0;
+			Waggon temp = head;
+			while (temp != null) {
+				capacity += temp.getCapacity();
+				temp = temp.getNext();
 			}
-			return cap;
+		return capacity;
 		}
 	}
 
@@ -55,41 +55,38 @@ public class Train {
 			head = waggon;
 		}
 		else {
-			Waggon helper = head;
-			while (helper.getNext() != null) {
-				helper = helper.getNext();
+			Waggon temp = head;
+			while(temp.getNext() != null) {
+				temp = temp.getNext();
 			}
-			helper.setNext(waggon);
+			temp.setNext(waggon);
 		}
 	}
-	
 
 	public void boardPassengers(int numberOfPassengers) {
-		Waggon train = head;
-		int wartend = numberOfPassengers;
-		while (train != null) {
-			int frei = train.getCapacity() - train.getPassengers();
-			int anBoard = train.getPassengers();
+		Waggon temp = head;
+		int waiting = numberOfPassengers;
+		while (temp != null) {
+			int capacity = temp.getCapacity();
+			int boarded = temp.getPassengers();
+			int free = capacity - boarded;
 			
-			if (frei == 0) {
-				train = train.getNext();
+			if(free == 0) {
+				temp = temp.getNext();
+				continue;
 			}
-			else {
-				if (frei >= wartend) {
-					train.setPassengers(wartend);
+			else if (free >= waiting) {
+					temp.setPassengers(boarded + waiting);
+				break;
 				}
-				else {
-					if (frei < wartend) {
-						int temp = wartend - frei;
-						train.setPassengers(train.getCapacity());
-						wartend = temp;
-					}
-					train = train.getNext();
-				}
+				else  if (free < waiting) {
+					int remaining = waiting - free;
+					temp.setPassengers(capacity);
+					temp = temp.getNext();
+					waiting = remaining;
 			}
-			train = train.getNext();
 		}
-	}	
+	}
 
 	public Train uncoupleWaggons(int index) {
 		return new Train();
@@ -105,16 +102,18 @@ public class Train {
 	}
 
 	public Waggon getWaggonAt(int index) {
-		if (index == 0 || index > getSize()) {
+		Waggon temp = head;
+		if(index < 0) {
+			return null;
+		}
+		else if (index > getSize()) {
 			return null;
 		}
 		else {
-		Waggon query;
 		for (int i = 0; i < index; i++) {
-			head = head.getNext();
+			temp = temp.getNext();
 		}
-		query = head;
-		return query;
+		return temp;
 		}
 	}
 
