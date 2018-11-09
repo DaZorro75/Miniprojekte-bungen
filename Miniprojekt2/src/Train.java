@@ -89,16 +89,68 @@ public class Train {
 	}
 
 	public Train uncoupleWaggons(int index) {
-		return new Train();
+		Train newTrain = new Train();
+		if (index < 0 || index > getSize()) {
+			return null;
+		}
+			else {
+				Waggon desire = getWaggonAt(index - 1);
+				Waggon lust = desire.getNext();
+				desire.setNext(null);
+				newTrain.head = lust;
+				
+		}
+		return newTrain;
 	}
 
 	public void insertWaggon(Waggon waggon, int index) {
+		if (index == 0) {
+			Waggon wag0 = head;
+			head = waggon;
+			head.setNext(wag0);
+		}
+		else if (index >= getSize()) {
+			while (head.getNext() != null) {
+				head = head.getNext();
+				}
+			head.setNext(waggon);
+		}
+		else {
+		Waggon wag1 = getWaggonAt(index - 1);
+		Waggon wag2 = wag1.getNext();
+		wag1.setNext(waggon);
+		waggon.setNext(wag2);
+		}
 	}
 
 	public void turnOver() {
+		Train newTrain = new Train();
+		Waggon old = getWaggonAt(getSize() - 1);
+		while (getSize() > 0) {
+			old = getWaggonAt(getSize() - 1);
+			newTrain.appendWaggon(old);
+			removeWaggon(old);
+		}
+		head = newTrain.getWaggonAt(0);
 	}
 
 	public void removeWaggon(Waggon waggon) {
+		if (waggon == null) {}
+		else {
+			if(head == waggon) {
+				head = head.getNext();
+			}
+			else {
+				Waggon wag0 = head;
+				while (wag0.getNext() != waggon) {
+					wag0 = wag0.getNext();
+				}
+				
+				if (wag0 != null) {
+					wag0.setNext(wag0.getNext().getNext());
+				}
+			}
+		}
 	}
 
 	public Waggon getWaggonAt(int index) {
