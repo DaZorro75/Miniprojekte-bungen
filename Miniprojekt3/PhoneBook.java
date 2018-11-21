@@ -45,12 +45,52 @@ public class PhoneBook {
 	// Aufgabe 2
 	// Die Methodensignatur darf NICHT geaendert werden
 	public boolean findPerson(String lastName, String firstName, int number){
-		return false;
+		if (root == null) {
+			return false;
+		}
+		else if (root.getLeftSuccessor() == null || root.getRightSuccessor() == null && compareTwoPersons(lastName, firstName, number, root) != 0) {
+			return false;
+		}
+		else  {
+			findPerson(lastName, firstName, number, root);
+			if (this.findPerson(lastName, firstName, number, root) == true) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
 	}
 	
 	// Rueckgabetyp und Parametrisierung dieser Methode duerfen geaendert werden! 
 	private boolean findPerson(String lastName, String firstName, int number, Person currentNode){
-		return false;
+		Person newPerson = new Person(lastName, firstName, number, true);
+		int comp = compareTwoPersons(newPerson, currentNode);
+		if (comp == 0) {
+			return true;
+		}
+		else if (comp < 0) {
+			if (currentNode.getLeftSuccessor() == null) {
+				return false;
+			}
+			else if (this.findPerson(lastName, firstName, number, currentNode.getLeftSuccessor()) == true) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		else {
+			if (currentNode.getRightSuccessor() == null) {
+				return false;
+			}
+			else if (this.findPerson(lastName, firstName, number, currentNode.getRightSuccessor()) == true) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
 	}
 	
 	// Aufgabe 3
@@ -158,8 +198,8 @@ public class PhoneBook {
 	public static void main(String[] args) {
 		//Die folgenden Methoden testen einzeln die Zu bearbeitenden Aufgaben. Sie koennen diese einzeln
 		//aus- und einkommentieren, falls Sie erst Teile der Loesung programmiert haben.
-		testInsertPerson();
-		//testFindPerson();
+		//testInsertPerson();
+		testFindPerson();
 		//testCountPersons();
 		//testFindPersons();
 		//testMarryTheHochzeits();
