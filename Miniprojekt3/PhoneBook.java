@@ -96,12 +96,24 @@ public class PhoneBook {
 	// Aufgabe 3
 	// Die Methodensignatur darf NICHT geaendert werden
 	public int countAllPersons() {
-		return 0;
+		if (root == null) {
+			return 0;
+		}
+		else {
+			return countAllPersons(root);
+		}
 	}
 	
 	// Rueckgabetyp und Parametrisierung dieser Methode duerfen geaendert werden!
 	public int countAllPersons(Person currentNode) {
-		return 0;
+		int l = 1;
+		if (currentNode.getLeftSuccessor() != null) {
+			l += countAllPersons(currentNode.getLeftSuccessor());
+		}
+		if (currentNode.getRightSuccessor() != null) {
+			l += countAllPersons(currentNode.getRightSuccessor());
+		}
+		return l;
 	}
 	
 	// Aufgabe 4
@@ -199,8 +211,8 @@ public class PhoneBook {
 		//Die folgenden Methoden testen einzeln die Zu bearbeitenden Aufgaben. Sie koennen diese einzeln
 		//aus- und einkommentieren, falls Sie erst Teile der Loesung programmiert haben.
 		//testInsertPerson();
-		testFindPerson();
-		//testCountPersons();
+		//testFindPerson();
+		testCountPersons();
 		//testFindPersons();
 		//testMarryTheHochzeits();
 		//testRemovePersonFromPhoneBook();
