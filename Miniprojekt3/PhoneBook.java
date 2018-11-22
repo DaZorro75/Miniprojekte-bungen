@@ -130,12 +130,24 @@ public class PhoneBook {
 	// Aufgabe 5
 	// Die Methodensignatur darf NICHT geaendert werden
 	public void marryTheHochzeits() {
-		
+	if (root == null) {
+	}
+	else {
+		marryTheHochzeits(root);
+		}
 	}
 	
 	// Rueckgabetyp und Parametrisierung dieser Methode duerfen geaendert werden!
 	private void marryTheHochzeits(Person currentNode) {
-		
+		if (currentNode.getLastName() == "Hochzeit") {
+			currentNode.setMarried(true);
+		}
+			if (currentNode.getLeftSuccessor() != null) {
+				marryTheHochzeits(currentNode.getLeftSuccessor());
+			}
+			if (currentNode.getRightSuccessor() != null) {
+				marryTheHochzeits(currentNode.getRightSuccessor());
+			}
 	}
 	
 	// Aufgabe 6
@@ -212,9 +224,9 @@ public class PhoneBook {
 		//aus- und einkommentieren, falls Sie erst Teile der Loesung programmiert haben.
 		//testInsertPerson();
 		//testFindPerson();
-		testCountPersons();
+		//testCountPersons();
 		//testFindPersons();
-		//testMarryTheHochzeits();
+		testMarryTheHochzeits();
 		//testRemovePersonFromPhoneBook();
 		//testChangePerson();
 	}
