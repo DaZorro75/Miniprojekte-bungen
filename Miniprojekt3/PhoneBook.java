@@ -277,8 +277,8 @@ public class PhoneBook {
 		//testCountPersons();
 		//testFindPersons();
 		//testMarryTheHochzeits();
-		testRemovePersonFromPhoneBook();
-		//testChangePerson();
+		//testRemovePersonFromPhoneBook();
+		testChangePerson();
 		
 	}
 	
