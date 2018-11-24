@@ -119,14 +119,37 @@ public class PhoneBook {
 	// Aufgabe 4
 	// Die Methodensignatur darf NICHT geaendert werden
 	public Person[] findAllPersonsByFirstName(String firstName){
-		return null;
+		if (root == null) {
+			return null;
+		}
+		else {
+		ArrayList<Person> l = findAllPersonsByFirstName(firstName, root);
+		return l.toArray(new Person[l.size()]);
+		}
 	}
 	
 	// Rueckgabetyp und Parametrisierung dieser Methode duerfen geaendert werden!
-	private Person[] findAllPersonsByFirstName(String firstName, Person currentNode){
-		return null;
-	}
-	
+	private ArrayList<Person> findAllPersonsByFirstName(String firstName, Person currentNode){
+	 ArrayList<Person> l = new ArrayList<Person>();
+	 if (currentNode.getFirstName().compareTo(firstName) == 0) {
+	 l.add(currentNode);
+	 if (currentNode.getLeftSuccessor() != null) {
+		 findAllPersonsByFirstName(firstName, currentNode.getLeftSuccessor());
+	 }
+	 if (currentNode.getRightSuccessor() != null) {
+		 findAllPersonsByFirstName(firstName, currentNode.getRightSuccessor());
+	 }
+	 else {
+		 if (currentNode.getLeftSuccessor() != null) {
+			 findAllPersonsByFirstName(firstName, currentNode.getLeftSuccessor());
+		 }
+		 if (currentNode.getRightSuccessor() != null) {
+			 findAllPersonsByFirstName(firstName, currentNode.getRightSuccessor());
+		 	}
+	 	}
+	 }
+	 return l;
+	}	
 	// Aufgabe 5
 	// Die Methodensignatur darf NICHT geaendert werden
 	public void marryTheHochzeits() {
@@ -153,18 +176,45 @@ public class PhoneBook {
 	// Aufgabe 6
 	// Die Methodensignatur darf NICHT geaendert werden
 	public void removePersonFromPhoneBook(String lastName, String firstName, int number){
+		if (root != null) {
+		removePersonFromPhoneBook(lastName, firstName, number, root);
+		}
 		
 	}
 	
 	// Rueckgabetyp und Parametrisierung dieser Methode duerfen geaendert werden!
 	private void removePersonFromPhoneBook(String lastName, String firstName, int number, Person currentNode){
-		
+		if (compareTwoPersons(lastName, firstName, number, currentNode) < 0) {
+			removePersonFromPhoneBook(lastName, firstName, number, currentNode.getLeftSuccessor());
+		}
+		if (compareTwoPersons(lastName, firstName, number, currentNode) > 0) {
+			removePersonFromPhoneBook(lastName, firstName, number, currentNode.getRightSuccessor());
+		}
+		if (compareTwoPersons(lastName, firstName, number, currentNode) == 0) {
+			if (currentNode.getLeftSuccessor() == null && currentNode.getRightSuccessor() == null) {
+				currentNode = null;
+			}
+			if (currentNode.getRightSuccessor() == null) {
+				root.setLeftSuccessor(currentNode.getLeftSuccessor());
+			}
+			if (currentNode.getLeftSuccessor() == null) {
+				root.setLeftSuccessor(currentNode.getRightSuccessor());
+			}
+			if (currentNode.getLeftSuccessor() != null && currentNode.getRightSuccessor() != null) {
+				Person tempLeft = currentNode.getLeftSuccessor();
+				Person tempRight = currentNode.getRightSuccessor();
+				insertPerson(tempLeft, root);
+				insertPerson(tempRight, root);
+			}
+		}
 	}
 	
 	// Aufgabe 7
 	// Die Methodensignatur darf NICHT geaendert werden
 	public void changePerson(String lastName, String firstName, int number, String newLastname){
-		
+	Person pers = new Person(newLastname, firstName, number, true);	
+	removePersonFromPhoneBook(lastName, firstName, number);
+	insertPerson(pers, root);
 	}
 	
 	// Rueckgabetyp und Parametrisierung dieser Methode duerfen geaendert werden!
@@ -226,9 +276,10 @@ public class PhoneBook {
 		//testFindPerson();
 		//testCountPersons();
 		//testFindPersons();
-		testMarryTheHochzeits();
-		//testRemovePersonFromPhoneBook();
+		//testMarryTheHochzeits();
+		testRemovePersonFromPhoneBook();
 		//testChangePerson();
+		
 	}
 	
 	private static void testInsertPerson() {
