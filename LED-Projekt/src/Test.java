@@ -17,6 +17,9 @@ public class Test {
 		Enemy en = new Enemy(5);
 		en.draw(en, 2, 1);
 		controller.updateBoard();
+		controller.sleep(100);
+		en.moveEnemy(en);
+		controller.updateBoard();
 		
 		Enemy en2 = new Enemy(3);
 		en2.draw(en2, 4, 5);
