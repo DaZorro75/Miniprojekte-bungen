@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<classpath>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="src" path="Miniprojekt2/src"/>
-	<classpathentry kind="src" path="LED"/>
-	<classpathentry kind="src" path="Miniprojekt3"/>
-	<classpathentry kind="lib" path="LED/LEDControl_v2_r8.jar"/>
-	<classpathentry kind="output" path="Miniprojekt2/bin"/>
-</classpath>
