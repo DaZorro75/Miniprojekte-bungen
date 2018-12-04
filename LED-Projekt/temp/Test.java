@@ -2,7 +2,8 @@ package temp;
 import ledControl.BoardController;
 
 public class Test {
-
+}
+ /*
 	public static BoardController controller;
 	public Enemy enemy;
 	private  PlayField playField;
@@ -63,4 +64,3 @@ public class Test {
 		}
 	} */
 	
-}

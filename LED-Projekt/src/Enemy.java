@@ -1,3 +1,6 @@
+package src;
+
+
 import ledControl.BoardController;
 import java.util.*;
 public class Enemy {
@@ -12,7 +15,7 @@ public class Enemy {
 	public Enemy(int x) {
 		this.x_Size = x;
 	}
-	
+	//Zeichnet den Übergebenen Gegner auf das Spielfeld
 	public void draw(Enemy enemy, int x, int y) {
 		controller = BoardController.getBoardController();
 		 for (int i = x; i < x + this.x_Size; i++) {
@@ -22,30 +25,33 @@ public class Enemy {
 			 this.y = y;
 		 }	
 	}
-	private int[] getCurrentPosition() {
+	//pos[0] = Position X
+	//pos[1] = Position Y
+	//pos[3] = Position des letzten Punkts
+	public int[] getCurrentPosition() {
 		int[] pos = new int[3];
 		pos[0] = this.x;
 		pos[1] = this.y;
 		pos[2] = this.x + this.x_Size;
-		System.out.println(pos[0]);
-		System.out.println(pos[1]);
+		System.out.println("Der Anfang ist an der X-Koordinate:" + pos[0]);
+		System.out.println("Die Y- Koordinate des Objektes lautet:" + pos[1]);
+		System.out.println("Das Ende des Gegners ist an der X-Koordinate " + pos[2]);
 		return pos;
 		
 	}
 	
-	public void moveEnemy(Enemy enemy) {
+	//Bewegt den übergebenen Gegner von links nach rechts
+	public void moveEnemy(Enemy enemy, int fields) {
 		int[] pos = getCurrentPosition();
-		if (lastDot != 12) {
-		for (int i = 0; i < 12 - lastDot; i++) {
-			controller.setColor(x, pos[1], 100, 100, 100);
-			controller.updateBoard();
-			draw(enemy, pos[0] + i, pos[1]);
-			controller.updateBoard();
+		if (pos[0] != 12 - this.x_Size || pos[2] != 12) {
+			for (int i = pos[0]; i < pos[0] + fields; i++) {
+			draw(enemy, pos[0] + fields, pos[1]);
+			controller.setColor(i, pos[1], 100, 100, 100);
 			}
 		}
-		else {
-			;
-		}
 	}
-
+	
+	public void moveMultipleEnemies() {
+		
+	}
 }
