@@ -11,15 +11,37 @@ public class Enemy {
 	private int x;
 	private int y;
 	private int lastDot;
+	private int[] RGB = new int[3];
 	
-	public Enemy(int x) {
+	public Enemy(int x, String color) {
 		this.x_Size = x;
+		if (color == "Blue") {
+			RGB[0] = 0; 
+			RGB[1] = 0;
+			RGB[2] = 100;
+		}
+		else if (color == "Red") {
+			RGB[0] = 100; 
+			RGB[1] = 0;
+			RGB[2] = 0;
+		}
+		else if (color == "Green") {
+			RGB[0] = 0; 
+			RGB[1] = 100;
+			RGB[2] = 0;
+		}
+		else {
+			System.out.println("Die übergebene Farbe für den Gegner ist ungültig");
+			RGB[0] = 100; 
+			RGB[1] = 100;
+			RGB[2] = 100;
+		}
 	}
 	//Zeichnet den Übergebenen Gegner auf das Spielfeld
 	public void draw(Enemy enemy, int x, int y) {
 		controller = BoardController.getBoardController();
 		 for (int i = x; i < x + this.x_Size; i++) {
-			 controller.setColor(i, y, 100, 0, 0);
+			 controller.setColor(i, y, RGB[0], RGB[1], RGB[2]);
 			 controller.updateBoard();
 			 this.x = x;
 			 this.y = y;
