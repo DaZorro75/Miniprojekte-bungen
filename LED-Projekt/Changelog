@@ -1,3 +1,15 @@
-Montag, 03.12.2018 V0.0 Erste Experimente.
-Montag, 03.12.2018 V0.0.1 MoveAlgo V0.1
+*Added Walls
+ - Move Method
+ - Draw Method
+ - Get Position Method
+ 
+*Added Enemies
+ - Draw Method
+ - Get Position Method
+ - Move Method
+
+*Added Bullet
+ - Draw Method
+ - Get Position Method
+ - Shoot Method
 
