@@ -36,7 +36,7 @@ public class Main {
 		//Test der Methoden
 		initializePlayField();
 		
-		Enemy a = new Enemy(5, "Red");
+		/*Enemy a = new Enemy(5, "Red");
 		MovingThreadTest a1 = new MovingThreadTest();
 		Enemy b = new Enemy(2, "Blue");
 		Enemy c = new Enemy(3, "Green");
@@ -49,7 +49,12 @@ public class Main {
 		d.draw(d, 4, 10);
 		wall.draw(6, 0);
 		wall2.draw(6, 5);
-		int[] col = new int[3];
+		*/
+		Projectile p = new Projectile("Red");
+		p.draw(5, 11);
+		p.shoot();
+		controller.updateBoard();
+		/*
 		while(a.getCurrentPosition()[2] != 12 || b.getCurrentPosition()[2] != 12) {
 		a1.run(a);
 		a1.run(b);
@@ -57,7 +62,7 @@ public class Main {
 		a1.run(d);
 		controller.updateBoard();
 		}
-		
+		*/
 		
 		
 		clearPlayField();

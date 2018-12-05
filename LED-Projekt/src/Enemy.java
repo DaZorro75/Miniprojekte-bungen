@@ -31,7 +31,7 @@ public class Enemy {
 			RGB[2] = 0;
 		}
 		else {
-			System.out.println("Die übergebene Farbe für den Gegner ist ungültig");
+			System.err.println("Die übergebene Farbe für den Gegner ist ungültig");
 			RGB[0] = 100; 
 			RGB[1] = 100;
 			RGB[2] = 100;

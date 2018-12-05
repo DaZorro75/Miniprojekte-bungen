@@ -19,7 +19,7 @@ public class Wall {
 	//Zeichnet die Wand auf das Spielfeld
 	public void draw(int y, int x) {
 		for (int i = x; i < this.size + x ; i++) {
-		controller.setColor(i, y, 127, 90, 43);
+		controller.setColor(i, y, 100, 90, 43);
 		controller.updateBoard();
 		this.x = x;
 		this.y = y;
@@ -51,7 +51,7 @@ public class Wall {
 				controller.setColor(i, pos[1], 100, 100, 100);
 				}
 				else {
-					controller.setColor(i, pos[1], 127, 90, 43);
+					controller.setColor(i, pos[1], 100, 90, 43);
 				}
 				controller.updateBoard();
 			}
