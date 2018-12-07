@@ -3,19 +3,23 @@ package src;
 import ledControl.BoardController;;
 
 public class Wall {
-	
+
 	//RGB für die Wand: 127 - 90 - 43
-	
+
 	private BoardController controller = Main.getController();
 	private int size;
 	private int x;
 	private int y;
 	private int head = this.x + this.size;
-	
+
 	public Wall(int size) {
 		this.size = size;
 	}
 	
+	public int getSize() {
+		return this.size;
+	}
+
 	//Zeichnet die Wand auf das Spielfeld
 	public void draw(int y, int x) {
 		for (int i = x; i < this.size + x ; i++) {
@@ -25,7 +29,7 @@ public class Wall {
 		this.y = y;
 		}
 	}
-	
+
 	//Gibt die Position der Wand als Array wieder
 	public int[] getPosition() {
 		int[] pos = new int[3];
@@ -34,7 +38,7 @@ public class Wall {
 		pos[2] = this.head;
 		return pos;
 	}
-	
+
 	//Bewegt die Wand um die übergebene Anzahl an Feldern
 	public void moveWall(int fields) {
 		int pos[] = getPosition();
@@ -57,7 +61,7 @@ public class Wall {
 			}
 		}
 	}
-	
-		
+
+
 }
  
