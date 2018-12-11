@@ -1,6 +1,9 @@
 package src;
 
 import ledControl.BoardController;
+import ledControl.gui.KeyBuffer;
+
+import java.awt.event.KeyEvent;
 import javax.swing.*;
 import java.awt.event.*;
 
@@ -8,6 +11,7 @@ public class Main {
 
 	private static BoardController controller = BoardController.getBoardController();
 	private static int width = 12;
+	static KeyBuffer buffer = controller.getKeyBuffer();
 
 
 	public static void initializePlayField() {
@@ -68,13 +72,41 @@ public class Main {
 
 		Projectile p = new Projectile("Red");
 		p.draw(5, 11);
-		p.shoot();
+		
 		controller.updateBoard();
 		
 		
 		while(a.getCurrentPosition()[2] != 12 || b.getCurrentPosition()[2] != 12) {
 		controller.updateBoard();
-
+		
+		//Key Events
+		
+		while (true){
+			KeyEvent event = buffer.pop();
+			if (event != null){
+				if (event.getID() == java.awt.event.KeyEvent.KEY_PRESSED)
+					switch (event.getKeyCode()){
+					case java.awt.event.KeyEvent.VK_SPACE:
+					p.shoot();
+					break;
+					case java.awt.event.KeyEvent.VK_LEFT:
+					if (p.getPosition()[0] != 0) {
+						controller.setColor(p.getPosition()[0], p.getPosition()[1], 100, 100, 100);
+						p.draw(p.getPosition()[0] - 1, p.getPosition()[1]);
+						controller.updateBoard();
+					}
+					break;
+					case java.awt.event.KeyEvent.VK_RIGHT:
+						if (p.getPosition()[0] != 11) {
+							controller.setColor(p.getPosition()[0], p.getPosition()[1], 100, 100, 100);
+							p.draw(p.getPosition()[0] + 1, p.getPosition()[1]);
+							controller.updateBoard();
+						}
+						break;
+						default:
+					}
+				}
+			}
 		}
 	}
 }

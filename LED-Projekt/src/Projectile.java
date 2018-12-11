@@ -1,15 +1,18 @@
 package src;
 
 import ledControl.BoardController;
-import java.awt.event.*;
+import ledControl.gui.KeyBuffer;
 
-public class Projectile implements KeyListener{
+import java.awt.event.KeyEvent;
+
+public class Projectile{
 
 	private int x;
 	private int y;
 	private int[] RGB = new int[3];
 	private BoardController controller = Main.getController();
 	private int begin;
+	KeyBuffer buffer = controller.getKeyBuffer();
 
 	public Projectile(String color) {
 		if (color == "Blue") {
@@ -50,8 +53,7 @@ public class Projectile implements KeyListener{
 	}
 
 	public void shoot() {
-		int i = 0;
-		while (i < 12) {
+			for (int i = 0; i < 11; i++) {
 			draw(this.x, 12 - i);
 			controller.setColor(this.x, 12 - i, 100, 100, 100);
 			if(i == 0) {
@@ -62,29 +64,4 @@ public class Projectile implements KeyListener{
 			}
 		}
 	
-	//Key Events
-	
-	@Override
-	public void keyReleased(KeyEvent e) {
-		
-	}
-	
-	@Override
-	public void keyTyped(KeyEvent e) {
-		
-	}
-	
-	@Override
-	public void keyPressed(KeyEvent e) {
-			int[] pos = this.getPosition();
-		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-			draw(pos[0] - 1, pos[1]);
-			controller.setColor(pos[0], pos[1], 100, 100, 100);
-		}
-		else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-			draw(pos[0] + 1, pos[1]);
-			controller.setColor(pos[0], pos[1], 100, 100, 100);
-		}
-		controller.updateBoard();
-	}
 }
