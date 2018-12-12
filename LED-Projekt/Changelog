@@ -1,15 +1,4 @@
-*Added Walls
- - Move Method
- - Draw Method
- - Get Position Method
- 
-*Added Enemies
- - Draw Method
- - Get Position Method
- - Move Method
-
-*Added Bullet
- - Draw Method
- - Get Position Method
- - Shoot Method
-
+Veränderte Dateien
+*Main
+*Projectile
+*Enemy
