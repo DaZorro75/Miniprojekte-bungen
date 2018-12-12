@@ -1,11 +1,9 @@
 package src;
 
-import ledControl.BoardController;
+import ledControl.BoardController; 
 import ledControl.gui.KeyBuffer;
-
 import java.awt.event.KeyEvent;
-import javax.swing.*;
-import java.awt.event.*;
+import java.util.Random;
 
 public class Main {
 
@@ -36,6 +34,10 @@ public class Main {
 			}
 		}
 
+	private static int getRandomNumber() {
+		Random r = new Random();
+		return r.nextInt(5);
+	}
 	public static BoardController getController() {
 		return controller;
 	}
@@ -70,8 +72,9 @@ public class Main {
 		
 	
 
-		Projectile p = new Projectile("Red");
+		Projectile p = new Projectile(getRandomNumber());
 		p.draw(5, 11);
+		
 		
 		controller.updateBoard();
 		
@@ -88,6 +91,7 @@ public class Main {
 					switch (event.getKeyCode()){
 					case java.awt.event.KeyEvent.VK_SPACE:
 					p.shoot();
+					p.changeColor(getRandomNumber());
 					break;
 					case java.awt.event.KeyEvent.VK_LEFT:
 					if (p.getPosition()[0] != 0) {
@@ -106,7 +110,7 @@ public class Main {
 						default:
 					}
 				}
-			}
-		}
-	}
+			} 
+		}  
+	} 
 }

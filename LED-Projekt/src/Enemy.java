@@ -49,6 +49,12 @@ public class Enemy {
 			RGB[2] = 100;
 		}
 	}
+	
+	// Gibt den gewünschten Enemy zurück
+	public Enemy getEnemy() {
+		return this;
+	}
+	
 	//Zeichnet den Übergebenen Gegner auf das Spielfeld
 	public void draw(int x, int y) {
 //		controller = BoardController.getBoardController();

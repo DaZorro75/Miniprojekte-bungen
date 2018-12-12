@@ -1,9 +1,7 @@
 package src;
 
-import ledControl.BoardController;
+import ledControl.BoardController; 
 import ledControl.gui.KeyBuffer;
-
-import java.awt.event.KeyEvent;
 
 public class Projectile{
 
@@ -14,21 +12,32 @@ public class Projectile{
 	private int begin;
 	KeyBuffer buffer = controller.getKeyBuffer();
 
-	public Projectile(String color) {
-		if (color == "Blue") {
+	public Projectile(int i) {
+		if (i == 0) {
 			RGB[0] = 0; 
 			RGB[1] = 0;
 			RGB[2] = 100;
 		}
-		else if (color == "Red") {
+		else if (i == 1) {
 			RGB[0] = 100; 
 			RGB[1] = 0;
 			RGB[2] = 0;
 		}
-		else if (color == "Green") {
+		else if (i == 2) {
 			RGB[0] = 0; 
 			RGB[1] = 100;
 			RGB[2] = 0;
+		}
+		else if (i == 3) {
+			RGB[0] = 100;
+			RGB[1] = 100;
+			RGB[2] = 0;
+					
+		}
+		else if (i == 4) {
+			RGB[0] = 0;
+			RGB[1] = 100;
+			RGB[2] = 92;
 		}
 		else {
 			System.err.println("Die übergebene Farbe für das Projektil ist ungültig");
@@ -37,7 +46,43 @@ public class Projectile{
 			RGB[2] = 100;
 		}
 	}
-
+	
+	public void changeColor(int i) {
+		if (i == 0) {
+			RGB[0] = 0; 
+			RGB[1] = 0;
+			RGB[2] = 100;
+		}
+		else if (i == 1) {
+			RGB[0] = 100; 
+			RGB[1] = 0;
+			RGB[2] = 0;
+		}
+		else if (i == 2) {
+			RGB[0] = 0; 
+			RGB[1] = 100;
+			RGB[2] = 0;
+		}
+		else if (i == 3) {
+			RGB[0] = 100;
+			RGB[1] = 100;
+			RGB[2] = 0;
+					
+		}
+		else if (i == 4) {
+			RGB[0] = 0;
+			RGB[1] = 100;
+			RGB[2] = 92;
+		}
+		else {
+			System.err.println("Die übergebene Farbe für das Projektil ist ungültig");
+			RGB[0] = 100; 
+			RGB[1] = 100;
+			RGB[2] = 100;
+		}
+		this.draw(this.x, this.y);
+	}
+	
 	public int[] getPosition() {
 		int[] pos = new int[2];
 		pos[0] = this.x;
@@ -53,15 +98,14 @@ public class Projectile{
 	}
 
 	public void shoot() {
-			for (int i = 0; i < 11; i++) {
-			draw(this.x, 12 - i);
-			controller.setColor(this.x, 12 - i, 100, 100, 100);
-			if(i == 0) {
-			controller.sleep(999);
-			}
-			controller.updateBoard();
-			i++;
-			}
+		if (this.y > 0) {
+			draw(this.x, this.y - 1);
+			controller.setColor(this.x, this.y, 100, 100, 100);
+			shoot();
 		}
-	
+		else {
+			draw(this.x, 11);
+			controller.setColor(this.x, 0, 100, 100, 100);
+		}
+	}
 }
