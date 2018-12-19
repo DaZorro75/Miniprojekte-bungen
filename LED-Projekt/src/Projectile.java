@@ -11,6 +11,7 @@ public class Projectile{
 	private BoardController controller = Main.getController();
 	private int begin;
 	KeyBuffer buffer = controller.getKeyBuffer();
+	
 
 	public Projectile(int i) {
 		if (i == 0) {
@@ -98,14 +99,95 @@ public class Projectile{
 	}
 
 	public void shoot() {
-		if (this.y > 0) {
+		if (this.y >= 0) {
 			draw(this.x, this.y - 1);
 			controller.setColor(this.x, this.y, 100, 100, 100);
+			getCollision();
 			shoot();
 		}
 		else {
 			draw(this.x, 11);
 			controller.setColor(this.x, 0, 100, 100, 100);
+		}
+	}
+	
+	public void reverse() {
+		if (this.y + 1 <= 11) {
+			draw (this.x, this.y + 1);
+			controller.setColor(this.x, this.y, 100, 100, 100);
+			reverse();
+		}
+		else {
+				draw(this.x, 12);
+				controller.setColor(this.x, 11, 100, 100, 100);
+		}
+	}
+	
+	public int getColor() {
+		if (
+			RGB[0] == 0 && 
+			RGB[1] == 0 &&
+			RGB[2] == 100
+			) 
+			{
+			return 0;
+			//Blau
+		}
+		else if (
+			RGB[0] == 100 && 
+			RGB[1] == 0 &&
+			RGB[2] == 0
+			)
+			{
+			return 1;
+			//Rot
+		}
+		else if (
+			RGB[0] == 0 && 
+			RGB[1] == 100 &&
+			RGB[2] == 0
+			)
+		{
+			return 2;
+			//Grün
+		}
+		else if (
+			RGB[0] == 100 &&
+			RGB[1] == 100 &&
+			RGB[2] == 0
+			)
+		{
+			return 3;
+			//Gelb
+		}
+		else {
+			return 4;
+			//Cyan
+		}
+	}
+	
+	public boolean getCollision() {
+		int nextColor = 0;
+		if (this.y - 1 >= 0) {
+			nextColor = Main.checkColor(this.x, this.y -1);
+			
+		}
+		if (nextColor != 0) {
+			if (Main.checkColor(this.x, this.y - 1) == 0) {
+				return false;
+			}
+			else if (Main.checkColor(this.x, this.y - 1) == 1) {
+				System.err.println("Kollision mit einer Wand.");
+				this.reverse();
+				return true;
+			}
+			else {
+				System.err.println("Kollision mit einem Enemy");
+				return true;
+			}
+		}
+		else {
+			return false;
 		}
 	}
 }

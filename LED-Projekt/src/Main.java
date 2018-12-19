@@ -41,6 +41,20 @@ public class Main {
 	public static BoardController getController() {
 		return controller;
 	}
+	
+	public static int checkColor(int x, int y) {
+		// 0 - Void; 1 - Wall; 2 - Enemy
+		int[] i = controller.getColorAt(x, y);
+		if (i[0] == 100 && i[1] == 100 && i[2] == 100) {
+			return 0;
+		}
+		else if (i[0] == 100 && i[1] == 90 && i[2] == 43) {
+			return 1;
+		}
+		else {
+			return 2;
+		}
+	}
 
 	public static void main(String[] args) {
 	    
@@ -60,7 +74,7 @@ public class Main {
 		b.draw(7, 5);
 		c.draw(5, 7);
 		d.draw(4, 10);
-		e.draw(3, 6);
+		e.draw(3, 0);
 		f.draw(11, 4);
 		MovingThreadTest move = new MovingThreadTest(enemies);
 		move.start();
@@ -100,6 +114,15 @@ public class Main {
 						controller.updateBoard();
 					}
 					break;
+					case java.awt.event.KeyEvent.VK_F10: 
+						System.err.println("Cheat aktiviert");
+						move.stop(); 
+						clearPlayField();
+						
+					case java.awt.event.KeyEvent.VK_F4:
+						move.stop();
+						controller.sleep(5000);
+						throw new NullPointerException("Cheat Aktiviert");
 					case java.awt.event.KeyEvent.VK_RIGHT:
 						if (p.getPosition()[0] != 11) {
 							controller.setColor(p.getPosition()[0], p.getPosition()[1], 100, 100, 100);

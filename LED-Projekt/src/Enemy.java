@@ -81,6 +81,7 @@ public class Enemy {
 
 	}
 	
+	
 	public int getLength() {
 		return this.x_Size;
 	}
@@ -135,7 +136,11 @@ public class Enemy {
 			 controller.setColor(x -1, y, 100, 100, 100);
 		 }
 	}
-	public void moveMultipleEnemies() {
-
-	}
+	
+	/*public void removeSpotAt(int x) {
+		Enemy temp = this;
+		int t = x - temp.getCurrentPosition()[0];
+		while ()
+		}
+	}*/
 }
