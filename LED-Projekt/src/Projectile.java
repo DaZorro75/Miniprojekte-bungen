@@ -11,8 +11,8 @@ public class Projectile{
 	private BoardController controller = Main.getController();
 	private int begin;
 	KeyBuffer buffer = controller.getKeyBuffer();
+	private Enemy[] enemies = Main.getEnemies();
 	
-
 	public Projectile(int i) {
 		if (i == 0) {
 			RGB[0] = 0; 
@@ -166,6 +166,16 @@ public class Projectile{
 		}
 	}
 	
+	public Enemy findEnemy(int x, int y) {
+		Enemy result = null;
+		for (int i = 0; i < enemies.length; i++) {
+			if (enemies[i].getCurrentPosition()[1] == y) {
+				result = enemies[i];
+			}
+		}
+		return result;
+	}
+	
 	public boolean getCollision() {
 		int nextColor = 0;
 		if (this.y - 1 >= 0) {
@@ -178,13 +188,16 @@ public class Projectile{
 			}
 			else if (Main.checkColor(this.x, this.y - 1) == 1) {
 				System.err.println("Kollision mit einer Wand.");
-				this.reverse();
 				return true;
 			}
 			else {
 				System.err.println("Kollision mit einem Enemy");
-				return true;
+				Enemy temp = findEnemy(this.x, this.y - 1);
+				if (temp != null) { 
+					System.err.println("Enemy found with following Color Attributes: " + " R:" + temp.getRGB()[0] + " G:" + temp.getRGB()[1] + "B:" +temp.getRGB()[2]);
+				}
 			}
+			return true;
 		}
 		else {
 			return false;

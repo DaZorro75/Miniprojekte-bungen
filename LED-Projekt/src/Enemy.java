@@ -1,7 +1,9 @@
 package src;
 
+//Info EnemyColor: 1 - EnemyColor, 0 - BackgroundColor
 
 import ledControl.BoardController;
+import java.util.Arrays;
 import java.util.*;
 public class Enemy {
 
@@ -13,34 +15,46 @@ public class Enemy {
 	private int y;
 	private int lastDot;
 	private int[] RGB = new int[3];
+	private int[] EnemyColor;
+	
+	public void initEnemyColor() {
+		for (int i = 0; i < EnemyColor.length; i++) {
+			this.EnemyColor[i] = 1;
+		}
+	}
 
 	public Enemy(int x_Size, String color) {
 		this.x_Size = x_Size;
+		this.EnemyColor = new int[this.x_Size];
 		if (color.equals("Blue")) {
 			RGB[0] = 0; 
 			RGB[1] = 0;
 			RGB[2] = 100;
+			initEnemyColor();
 		}
 		else if (color.equals("Red")) {
 			RGB[0] = 100; 
 			RGB[1] = 0;
 			RGB[2] = 0;
+			initEnemyColor();
 		}
 		else if (color.equals("Green")) {
 			RGB[0] = 0; 
 			RGB[1] = 100;
 			RGB[2] = 0;
+			initEnemyColor();
 		}
 		else if (color.equals("Yellow")) {
 			RGB[0] = 100;
 			RGB[1] = 100;
 			RGB[2] = 0;
-					
+			initEnemyColor();
 		}
 		else if (color.equals("Cyan")) {
 			RGB[0] = 0;
 			RGB[1] = 100;
 			RGB[2] = 92;
+			initEnemyColor();
 		}
 		else {
 			System.err.println("Die übergebene Farbe für den Gegner ist ungültig");
@@ -48,6 +62,10 @@ public class Enemy {
 			RGB[1] = 100;
 			RGB[2] = 100;
 		}
+	}
+	
+	public int[] getRGB() {
+		return this.RGB;
 	}
 	
 	// Gibt den gewünschten Enemy zurück
@@ -59,10 +77,17 @@ public class Enemy {
 	public void draw(int x, int y) {
 //		controller = BoardController.getBoardController();
 		 for (int i = x; i < x + this.x_Size; i++) {
-			 controller.setColor(i, y, RGB[0], RGB[1], RGB[2]);
+			 for (int j = 0; j < EnemyColor.length; j++) {
+			 if (EnemyColor[j] == 1) {
+				 controller.setColor(this.x + i, this.y, RGB[0], RGB[1], RGB[2]);
+			 }
+			 else {
+				 controller.setColor(this.x + i, this.y, 100, 100, 100);
+			 }
 
 			 this.x = x;
 			 this.y = y;
+			 }
 		 }
 		 controller.updateBoard();
 	}
@@ -137,10 +162,5 @@ public class Enemy {
 		 }
 	}
 	
-	/*public void removeSpotAt(int x) {
-		Enemy temp = this;
-		int t = x - temp.getCurrentPosition()[0];
-		while ()
-		}
-	}*/
+
 }

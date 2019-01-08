@@ -1,15 +1,23 @@
 package src;
 
 import ledControl.BoardController; 
+import java.util.LinkedList;
 import ledControl.gui.KeyBuffer;
 import java.awt.event.KeyEvent;
 import java.util.Random;
+
 
 public class Main {
 
 	private static BoardController controller = BoardController.getBoardController();
 	private static int width = 12;
 	static KeyBuffer buffer = controller.getKeyBuffer();
+	public LinkedList<Enemy> enemyList;
+	private static Enemy[] eN;
+	
+	public static Enemy[] getEnemies() {
+		return eN;
+	}
 
 
 	public static void initializePlayField() {
@@ -68,7 +76,8 @@ public class Main {
 		Enemy d = new Enemy(4, "Black");
 		Enemy e = new Enemy(6, "Cyan");
 		Enemy f = new Enemy(4, "Yellow");
-		Enemy[] enemies = new Enemy[] {a,b,c,d,e,f};
+		eN = new Enemy[] {a,b,c,d,e,f};
+		
 
 		a.draw(2, 2);
 		b.draw(7, 5);
@@ -76,7 +85,7 @@ public class Main {
 		d.draw(4, 10);
 		e.draw(3, 0);
 		f.draw(11, 4);
-		MovingThreadTest move = new MovingThreadTest(enemies);
+		MovingThreadTest move = new MovingThreadTest(eN);
 		move.start();
 
 		Wall wall = new Wall(3);
