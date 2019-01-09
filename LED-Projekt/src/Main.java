@@ -98,6 +98,7 @@ public class Main {
 			String enter = JOptionPane.showInputDialog(null, "Bitte Passwort für Debug:");
 			if (enter.compareTo("Kekse") == 0) {
 			initializePlayField(true);
+			debug_Mode = true;
 			}
 			else {
 				System.out.println(enter);
@@ -107,6 +108,7 @@ public class Main {
 		}
 		else {
 			initializePlayField(false);
+			debug_Mode = false;
 		}
 			//Test der Methoden
 		//initializePlayField();
