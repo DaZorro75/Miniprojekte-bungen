@@ -9,9 +9,9 @@ public class Projectile{
 	private int y;
 	private int[] RGB = new int[3];
 	private BoardController controller = Main.getController();
-	private int begin;
 	KeyBuffer buffer = controller.getKeyBuffer();
 	private Enemy[] enemies = Main.getEnemies();
+	private boolean debug = Main.getDebug();
 	
 	public Projectile(int i) {
 		if (i == 0) {
@@ -101,13 +101,23 @@ public class Projectile{
 	public void shoot() {
 		if (this.y >= 0) {
 			draw(this.x, this.y - 1);
+			if (this.debug == true) {
 			controller.setColor(this.x, this.y, 100, 100, 100);
-			getCollision();
+			}
+			else {
+				controller.setColor(x, y, 0, 0, 0);
+			}
+			//getCollision();
 			shoot();
 		}
 		else {
 			draw(this.x, 11);
+			if (this.debug == true) {
 			controller.setColor(this.x, 0, 100, 100, 100);
+			}
+			else {
+				controller.setColor(x, 0, 0, 0, 0);
+			}
 		}
 	}
 	
@@ -195,6 +205,16 @@ public class Projectile{
 				Enemy temp = findEnemy(this.x, this.y - 1);
 				if (temp != null) { 
 					System.err.println("Enemy found with following Color Attributes: " + " R:" + temp.getRGB()[0] + " G:" + temp.getRGB()[1] + "B:" +temp.getRGB()[2]);
+					if (this.x == temp.getCurrentPosition()[0]) {
+						temp.removeAt(0);
+					
+					}
+					else {
+						
+						int stelle = (this.x - temp.getCurrentPosition()[0]) - 1;
+						temp.removeAt(stelle);
+						
+					}
 				}
 			}
 			return true;

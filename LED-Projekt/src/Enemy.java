@@ -3,19 +3,16 @@ package src;
 //Info EnemyColor: 1 - EnemyColor, 0 - BackgroundColor
 
 import ledControl.BoardController;
-import java.util.Arrays;
-import java.util.*;
 public class Enemy {
 
 	private  int x_Size;
-	private static int y_Size = 1;
 	private boolean direction = false;//false rechts rum
 	private BoardController controller = BoardController.getBoardController();
 	private int x;
 	private int y;
-	private int lastDot;
 	private int[] RGB = new int[3];
 	private int[] EnemyColor;
+	private boolean debug;
 	
 	public void initEnemyColor() {
 		for (int i = 0; i < EnemyColor.length; i++) {
@@ -23,6 +20,11 @@ public class Enemy {
 		}
 	}
 
+	public void removeAt(int x) {
+		this.EnemyColor[x] = 0;
+		draw(this.x, this.y, debug);
+	}
+	
 	public Enemy(int x_Size, String color) {
 		this.x_Size = x_Size;
 		this.EnemyColor = new int[this.x_Size];
@@ -74,8 +76,11 @@ public class Enemy {
 	}
 	
 	//Zeichnet den Übergebenen Gegner auf das Spielfeld
-	public void draw(int x, int y) {
+	public void draw(int x, int y, boolean debug) {
 //		controller = BoardController.getBoardController();
+		debug = Main.getDebug();
+		this.debug = debug;
+		if (debug == true) {
 		 for (int i = x; i < x + this.x_Size; i++) {
 			 for (int j = 0; j < EnemyColor.length; j++) {
 			 if (EnemyColor[j] == 1) {
@@ -90,6 +95,23 @@ public class Enemy {
 			 }
 		 }
 		 controller.updateBoard();
+		}
+		else {
+			for (int i = x; i < x + this.x_Size; i++) {
+				 for (int j = 0; j < EnemyColor.length; j++) {
+				 if (EnemyColor[j] == 1) {
+					 controller.setColor(this.x + i, this.y, RGB[0], RGB[1], RGB[2]);
+				 }
+				 else {
+					 controller.setColor(this.x + i, this.y, 0, 0, 0);
+				 }
+
+				 this.x = x;
+				 this.y = y;
+				 }
+			 }
+			 controller.updateBoard();
+		}
 	}
 	//pos[0] = Position X
 	//pos[1] = Position Y
@@ -114,7 +136,6 @@ public class Enemy {
 	//Bewegt den übergebenen Gegner von links nach rechts
 	public void moveEnemy(int step) {
 
-		boolean oldDirection = direction;
 		if (y == 5)
 		System.out.println("" + direction + " " + x + " " + y + " " + x_Size);
 		//Linksbewegung
@@ -152,9 +173,17 @@ public class Enemy {
 			 
 			 controller.setColor(i, y, RGB[0], RGB[1], RGB[2]);
 		 }
-		 if (fill == true) {
+		 if (fill == true && this.debug == true) {
 			 
 			 controller.setColor(x + x_Size, y, 100, 100, 100);
+		 }
+		 else if (fill == true && this.debug == false) {
+			 
+			 controller.setColor(x + x_Size, y, 0, 0, 0);
+		 }
+		 else if (fill == false && this.debug == false) {
+			 
+			 controller.setColor(x -1, y, 0, 0, 0);
 		 }
 		 else {
 			 

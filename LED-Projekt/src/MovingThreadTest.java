@@ -21,4 +21,6 @@ public class MovingThreadTest extends Thread{
 			controller.updateBoard();
 			}
 		}
+	
+	
 	}
