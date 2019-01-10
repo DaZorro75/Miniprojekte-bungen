@@ -45,7 +45,7 @@ public class Wall {
 		int[] controllerColor = new int[3];
 		controllerColor = controller.getColorAt(pos[0], pos[1]);
 		int[] col = new int[3];
-		col[0] = 127;
+		col[0] = 100;
 		col[1] = 90;
 		col[2] = 43;
 		if(pos[2] < 12) {

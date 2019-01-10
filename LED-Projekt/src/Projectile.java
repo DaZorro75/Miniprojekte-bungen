@@ -84,6 +84,7 @@ public class Projectile{
 		this.draw(this.x, this.y);
 	}
 	
+	
 	public int[] getPosition() {
 		int[] pos = new int[2];
 		pos[0] = this.x;
@@ -97,40 +98,105 @@ public class Projectile{
 		this.x = x;
 		this.y = y;
 	}
-
-	public void shoot() {
-		if (this.y >= 0) {
-			draw(this.x, this.y - 1);
-			if (this.debug == true) {
-			controller.setColor(this.x, this.y, 100, 100, 100);
-			}
-			else {
-				controller.setColor(x, y, 0, 0, 0);
-			}
-			//getCollision();
-			shoot();
+	
+	public int getNextColor(int x, int y) {
+		if (this.y - 1 > -1) {
+			return Main.checkColor(x, y - 1, debug);
 		}
 		else {
+			return -1;
+		}
+	}
+
+	public void shoot() {
+		int next = getNextColor(this.x, this.y);
+		if (this.debug == true) {
+		switch(next) {
+		case -1:
+			controller.setColor(this.x, 11, 100, 100, 100);
 			draw(this.x, 11);
-			if (this.debug == true) {
-			controller.setColor(this.x, 0, 100, 100, 100);
+			System.err.println("Das Ende des Feldes wurde erreicht!");
+			break;
+		case 0:
+			controller.setColor(this.x, this.y, 100, 100, 100);
+			draw(this.x, this.y -1);
+			shoot();
+			break;
+		case 1:
+			break;
+		case 2:
+			Enemy temp = findEnemy(this.x, this.y - 1);
+			if (this.x == temp.getCurrentPosition()[0]) {
+				temp.removeAt(1);
+				Main.updateThread();
+				controller.setColor(this.x, this.y, 100, 100, 100);
+				draw(this.x, 11);
 			}
 			else {
-				controller.setColor(x, 0, 0, 0, 0);
+				temp.removeAt(this.x - temp.getCurrentPosition()[0]);
+				Main.updateThread();
+				controller.setColor(this.x, this.y, 100, 100, 100);
+				draw(this.x, 11);
 			}
+			System.err.println("Mit einem Enemy wurde kollidiert, Code ausgeführt.");
+			Main.setEnemyByID(temp, temp.id);
+			break;
+			}
+		}
+		else {
+			switch(next) {
+			case -1:
+				controller.setColor(this.x, 11, 0, 0, 0);
+				break;
+			case 0:
+				controller.setColor(this.x, this.y, 0, 0, 0);
+				draw(this.x, this.y -1);
+				shoot();
+				break;
+			case 1: 
+				break;
+			case 2:
+				Enemy temp = findEnemy(this.x, this.y - 1);
+				if (this.x == temp.getCurrentPosition()[0]) {
+					temp.removeAt(0);
+					controller.setColor(this.x, this.y, 0, 0, 0);
+					draw(this.x, 11);
+				}
+				else {
+					temp.removeAt(this.x - temp.getCurrentPosition()[0]);
+					controller.setColor(this.x, this.y, 0, 0, 0);
+					draw(this.x, 11);
+				}
+				System.err.println("Mit einem Enemy wurde kollidiert, Code ausgeführt.");
+				Main.setEnemyByID(temp, temp.id);
+				Main.updateThread();
+				break;
+				}
 		}
 	}
 	
-	public void reverse() {
-		if (this.y + 1 <= 11) {
-			draw (this.x, this.y + 1);
-			controller.setColor(this.x, this.y, 100, 100, 100);
-			reverse();
+	public void collision(int x, int y) {
+		int nextColor = Main.checkColor(x, y, debug);
+		switch(nextColor) {
+		case 1:
+			if (this.x + 1 != 11) {
+				draw(this.x, this.y + 1);
+				if (debug == true) {
+					controller.setColor(this.x, this.y, 100, 100, 100);
+				}
+				else {
+					controller.setColor(this.x, this.y, 0, 0, 0);
+				}
+			}
+			collision(this.x, this.y + 1);
+		case 2:
+			
+			default:
 		}
-		else {
-				draw(this.x, 12);
-				controller.setColor(this.x, 11, 100, 100, 100);
-		}
+	}
+	
+	public int[] getRGB() {
+		return this.RGB;
 	}
 	
 	public int getColor() {
@@ -185,42 +251,5 @@ public class Projectile{
 		}
 		return result;
 	}
-	
-	public boolean getCollision() {
-		int nextColor = 0;
-		if (this.y - 1 >= 0) {
-			nextColor = Main.checkColor(this.x, this.y -1);
-			
-		}
-		if (nextColor != 0) {
-			if (Main.checkColor(this.x, this.y - 1) == 0) {
-				return false;
-			}
-			else if (Main.checkColor(this.x, this.y - 1) == 1) {
-				System.err.println("Kollision mit einer Wand.");
-				return true;
-			}
-			else {
-				System.err.println("Kollision mit einem Enemy");
-				Enemy temp = findEnemy(this.x, this.y - 1);
-				if (temp != null) { 
-					System.err.println("Enemy found with following Color Attributes: " + " R:" + temp.getRGB()[0] + " G:" + temp.getRGB()[1] + "B:" +temp.getRGB()[2]);
-					if (this.x == temp.getCurrentPosition()[0]) {
-						temp.removeAt(0);
-					
-					}
-					else {
-						
-						int stelle = (this.x - temp.getCurrentPosition()[0]) - 1;
-						temp.removeAt(stelle);
-						
-					}
-				}
-			}
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
 }
+	

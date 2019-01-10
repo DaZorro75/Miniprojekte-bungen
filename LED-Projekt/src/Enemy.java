@@ -5,6 +5,7 @@ package src;
 import ledControl.BoardController;
 public class Enemy {
 
+	public int id;
 	private  int x_Size;
 	private boolean direction = false;//false rechts rum
 	private BoardController controller = BoardController.getBoardController();
@@ -21,11 +22,11 @@ public class Enemy {
 	}
 
 	public void removeAt(int x) {
-		this.EnemyColor[x] = 0;
+		this.EnemyColor[x -1] = 0;
 		draw(this.x, this.y, debug);
 	}
 	
-	public Enemy(int x_Size, String color) {
+	public Enemy(int x_Size, String color, int id) {
 		this.x_Size = x_Size;
 		this.EnemyColor = new int[this.x_Size];
 		if (color.equals("Blue")) {
@@ -33,30 +34,35 @@ public class Enemy {
 			RGB[1] = 0;
 			RGB[2] = 100;
 			initEnemyColor();
+			this.id = id;
 		}
 		else if (color.equals("Red")) {
 			RGB[0] = 100; 
 			RGB[1] = 0;
 			RGB[2] = 0;
 			initEnemyColor();
+			this.id = id;
 		}
 		else if (color.equals("Green")) {
 			RGB[0] = 0; 
 			RGB[1] = 100;
 			RGB[2] = 0;
 			initEnemyColor();
+			this.id = id;
 		}
 		else if (color.equals("Yellow")) {
 			RGB[0] = 100;
 			RGB[1] = 100;
 			RGB[2] = 0;
 			initEnemyColor();
+			this.id = id;
 		}
 		else if (color.equals("Cyan")) {
 			RGB[0] = 0;
 			RGB[1] = 100;
 			RGB[2] = 92;
 			initEnemyColor();
+			this.id = id;
 		}
 		else {
 			System.err.println("Die übergebene Farbe für den Gegner ist ungültig");
@@ -190,6 +196,4 @@ public class Enemy {
 			 controller.setColor(x -1, y, 100, 100, 100);
 		 }
 	}
-	
-
 }

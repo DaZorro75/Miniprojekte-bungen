@@ -2,7 +2,10 @@ package src;
 
 
 import ledControl.BoardController; 
+import javax.swing.JPasswordField;
 import javax.swing.JOptionPane;
+
+import java.util.Arrays;
 import java.util.LinkedList;
 import ledControl.gui.KeyBuffer;
 import java.awt.event.KeyEvent;
@@ -15,8 +18,35 @@ public class Main {
 	static KeyBuffer buffer = controller.getKeyBuffer();
 	public LinkedList<Enemy> enemyList;
 	private static Enemy[] eN;
-	private static MovingThreadTest move;
+	private static MovingThreadTest thread;
 	public static boolean debug_Mode;
+	public static Projectile pro;
+	
+	public static void setEnemyByID(Enemy e, int id) {
+		for (int i = 0; i < eN.length; i++) {
+			if (eN[i].id == id) {
+				eN[i] = e;
+			}
+		}
+	}
+	
+	
+	
+	public static void updateThread() {
+		try 
+		{thread.interrupt();
+		MovingThreadTest t = new MovingThreadTest(eN);
+		thread = t;
+		thread.start();
+		}
+		catch (Exception e) {
+			
+		}
+	}
+	
+	public static void start() {
+		thread.start();
+	}
 	
 	public static boolean getDebug() {
 		return debug_Mode;
@@ -26,11 +56,22 @@ public class Main {
 		return eN;
 	}
 	
+	public static void setEnemies(Enemy[] e) {
+		eN = e;
+	}
+	
 	public static MovingThreadTest getThread() {
-		return move;
+		return thread;
 	}
 
 	
+	public static Projectile getProjectile() {
+		return pro;
+	}
+	
+	public static void setProjectile(Projectile p) {
+		pro = p;
+	}
 	
 
 	public static void initializePlayField(boolean d) {
@@ -74,14 +115,20 @@ public class Main {
 		return controller;
 	}
 	
-	public static int checkColor(int x, int y) {
-		// 0 - Void; 1 - Wall; 2 - Enemy
+	public static int checkColor(int x, int y, boolean debug) {
+		// 0 - Void; 1 - Wall; 2 - Enemy; 3 - Projectile
 		int[] i = controller.getColorAt(x, y);
-		if (i[0] == 100 && i[1] == 100 && i[2] == 100) {
+		if (i[0] == 100 && i[1] == 100 && i[2] == 100 && debug == true) {
+			return 0;
+		}
+		else if (i[0] == 0 && i[1] == 0 && i[2] == 0 && debug == false) {
 			return 0;
 		}
 		else if (i[0] == 100 && i[1] == 90 && i[2] == 43) {
 			return 1;
+		}
+		else if (i[0] == pro.getRGB()[0] && i[1] == pro.getRGB()[1] && i[2] == pro.getRGB()[2]) {
+			return 3;
 		}
 		else {
 			return 2;
@@ -95,16 +142,20 @@ public class Main {
 															"Debug-Modus",
 															JOptionPane.YES_NO_OPTION);
 		if (debug == 0) {
-			String enter = JOptionPane.showInputDialog(null, "Bitte Passwort für Debug:");
-			if (enter.compareTo("Kekse") == 0) {
-			initializePlayField(true);
-			debug_Mode = true;
-			}
-			else {
-				System.out.println(enter);
-				JOptionPane.showMessageDialog(null, "Du besitzt leider nicht die nötigen Rechte für den Debug-Modus");
-				System.exit(0);
-			}
+			//JPasswordField passwordField = new JPasswordField(10);
+		    //passwordField.setEchoChar('*');
+		    //JOptionPane.showMessageDialog ( null, passwordField, "Passwort?", JOptionPane.OK_OPTION );
+		    //char[] chars = passwordField.getPassword();
+		    //String BenutzerPassEingabe = new String("Kekse");
+		    //if (Arrays.equals(chars, BenutzerPassEingabe.toCharArray())) {
+		    	debug_Mode = true;
+		    	initializePlayField(true);
+		    //}
+		    //else {
+		    	//JOptionPane.showMessageDialog(null, "Du besitzt nicht die notwendigen Rechte den Debug - Modus aufzurufen");
+		    	//System.exit(0);
+		    //}
+			
 		}
 		else {
 			initializePlayField(false);
@@ -114,12 +165,12 @@ public class Main {
 		//initializePlayField();
 
 		//Info: Der schwarze Gegner dient dem Testen, ob die übergebene Farbe gültig ist
-		Enemy a = new Enemy(5, "Red");
-		Enemy b = new Enemy(2, "Blue");
-		Enemy c = new Enemy(3, "Green");
-		Enemy d = new Enemy(4, "Black");
-		Enemy e = new Enemy(6, "Cyan");
-		Enemy f = new Enemy(4, "Yellow");
+		Enemy a = new Enemy(5, "Red" , 0);
+		Enemy b = new Enemy(2, "Blue", 1);
+		Enemy c = new Enemy(3, "Green", 2);
+		Enemy d = new Enemy(4, "Black", 3);
+		Enemy e = new Enemy(6, "Cyan", 4);
+		Enemy f = new Enemy(4, "Yellow", 5);
 		eN = new Enemy[] {a,b,c,d,e,f};
 		
 
@@ -130,7 +181,9 @@ public class Main {
 		e.draw(3, 0, debug_Mode);
 		f.draw(11, 4, debug_Mode);
 		MovingThreadTest move = new MovingThreadTest(eN);
+		thread = move;
 		move.start();
+
 
 		Wall wall = new Wall(3);
 		Wall wall2 = new Wall(3);
@@ -141,6 +194,7 @@ public class Main {
 
 		Projectile p = new Projectile(getRandomNumber());
 		p.draw(5, 11);
+		pro = p;
 		
 		
 		controller.updateBoard();

@@ -11,6 +11,15 @@ public class MovingThreadTest extends Thread{
 	this.enemies = enemies;
 
 	}
+	
+	public void updateEnemies(Enemy[] enemies) {
+		if (this.isAlive() == true) {
+			this.interrupt();
+			this.enemies = enemies;
+			this.resume();
+		}
+	}
+	
 	public void run() {
 		//		controller = Main.getController();
 		while (true) {
